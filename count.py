@@ -15,12 +15,14 @@ import pandas as pd
 
 df = pd.read_csv('data.csv', delimiter=';')
 df1 = df.copy(deep=True)
-#df1 = df1.query('INTERNAL_ORG_ORIGINAL_RK == -1')
+
 df1['percentPOS'] = df1['LOAN_AMOUNT'] / df1.groupby(['APPLICATION_DT'])['LOAN_AMOUNT'].transform('sum')
-print(pd.pivot_table(df1,
-               index=['APPLICATION_DT'],
-               columns=['INTERNAL_ORG_ORIGINAL_RK'],
-               values=['LOAN_AMOUNT', 'percentPOS'],
-               aggfunc={'LOAN_AMOUNT': 'sum', 'percentPOS': 'mean'},
-               fill_value=0
-               ))
+pivot_table = pd.pivot_table(df1,
+                             index=['APPLICATION_DT'],
+                             columns=['INTERNAL_ORG_ORIGINAL_RK'],
+                             values=['LOAN_AMOUNT', 'percentPOS'],
+                             aggfunc={'LOAN_AMOUNT': 'sum', 'percentPOS': 'mean'},
+                             fill_value=0
+                             )
+
+print(pivot_table)
